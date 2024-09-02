@@ -1,0 +1,131 @@
+The `Comparable` and `Comparator` interfaces in Java are used to compare objects, but they serve different purposes and have different use cases.
+
+### 1. `Comparable` Interface
+The `Comparable` interface is used to define the natural ordering of objects of a class. If a class implements `Comparable`, it can compare its instances based on a single criterion, which is defined by the `compareTo()` method.
+
+#### Syntax
+```java
+public class ClassName implements Comparable<ClassName> {
+    @Override
+    public int compareTo(ClassName other) {
+        // Comparison logic
+    }
+}
+```
+
+### Key Points:
+- **Single Comparison Criterion:** The `compareTo()` method defines how objects of the class are compared using a single criterion.
+- **Modifies Class:** Implementing `Comparable` requires modifying the class, which might not always be desirable.
+- **Natural Ordering:** This is the default ordering, like sorting strings alphabetically or numbers numerically.
+
+#### Example:
+```java
+public class Person implements Comparable<Person> {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age); // Natural ordering by age
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + age + ")";
+    }
+}
+```
+
+In this example, `Person` objects are naturally ordered by their `age`.
+
+### 2. `Comparator` Interface
+The `Comparator` interface is used to define a custom ordering of objects, especially when you want to compare objects by multiple criteria or if the class doesn’t implement `Comparable`. Comparators are useful when you need different ways to compare objects.
+
+#### Syntax
+```java
+public class ClassNameComparator implements Comparator<ClassName> {
+    @Override
+    public int compare(ClassName obj1, ClassName obj2) {
+        // Comparison logic
+    }
+}
+```
+
+### Key Points:
+- **Multiple Comparison Criteria:** Allows you to define multiple ways of comparing objects.
+- **Doesn’t Modify Class:** You don’t need to modify the class being compared.
+- **External Comparison:** Can be used externally, without changing the natural ordering of the class.
+
+#### Example:
+```java
+import java.util.Comparator;
+
+public class PersonNameComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return p1.name.compareTo(p2.name); // Ordering by name
+    }
+}
+```
+
+In this example, `Person` objects are ordered by their `name`.
+
+### Example of Using Both:
+
+Suppose you want to sort a list of `Person` objects by both `age` and `name`. First, implement `Comparable` for natural ordering by `age`, and then use `Comparator` for ordering by `name`.
+
+#### Example with Sorting:
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("Alice", 30),
+            new Person("Bob", 25),
+            new Person("Charlie", 30)
+        );
+
+        // Sorting by age (natural order)
+        Collections.sort(people);
+        System.out.println("Sorted by age: " + people);
+
+        // Sorting by name using Comparator
+        Collections.sort(people, new PersonNameComparator());
+        System.out.println("Sorted by name: " + people);
+    }
+}
+```
+
+### Custom Comparator Using Lambda Expressions
+
+In Java 8 and later, you can also use lambda expressions to define comparators more concisely:
+
+```java
+// Comparator for sorting by name using lambda
+Comparator<Person> nameComparator = (p1, p2) -> p1.name.compareTo(p2.name);
+
+// Comparator for sorting by age using lambda
+Comparator<Person> ageComparator = (p1, p2) -> Integer.compare(p1.age, p2.age);
+```
+
+You can then use these comparators like this:
+
+```java
+// Sorting by name
+people.sort(nameComparator);
+
+// Sorting by age
+people.sort(ageComparator);
+```
+
+### Summary:
+- **`Comparable`:** Used for natural ordering (single criterion), and is implemented directly in the class being compared.
+- **`Comparator`:** Used for custom ordering (multiple criteria), and is defined outside the class, making it more flexible.
+
+Would you like to see more advanced examples, like combining comparators or using them in streams?

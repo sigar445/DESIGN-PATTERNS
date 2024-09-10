@@ -3,6 +3,7 @@ package org.sigar.JavaCRef12Part2Lib.chap20_collection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.DoubleFunction;
 import java.util.function.IntFunction;
 
 public class ToArrayDemo {
@@ -46,6 +47,17 @@ public class ToArrayDemo {
 
 
     }
+    static void mutiplyByTwo(){
+        ArrayList<Double> doubleArrayList = new ArrayList<>();
+        doubleArrayList.add(1.1);
+        doubleArrayList.add(2.2);
+        doubleArrayList.add(3.3);
+
+//        DoubleFunction<Double[]> mutiplyByTwo = (s) -> Arrays.stream(s);
+//        Double[] mutiplyVals  = new Double[doubleArrayList.size()];
+//        doubleArrayList.toArray(mutiplyByTwo);
+//        Arrays.stream(mutiplyVals).forEach(System.out::println);
+    }
     static void functionToArray(){
 
         ArrayList<Double> doubleArrayList = new ArrayList<>();
@@ -55,7 +67,7 @@ public class ToArrayDemo {
         //  System.out.println(doubleArrayList);
 
         // Custom array generation function
-        IntFunction<Double[]> customArrayGen = size -> new Double[size];
+        IntFunction<Double[]> customArrayGen = Double[]::new;
 
         // Convert ArrayList to Double array using custom array generator
         Double[] doubleArray = doubleArrayList.toArray(customArrayGen);

@@ -10,7 +10,10 @@ public class LinkedListDemo {
         list.add("Third");
         list.add("Fourth");
         list.add("Fifth");
-        addMethods(list);
+        //addMethods(list);
+        String[] copy = new String[list.size()-1];
+        copy = list.toArray(copy);
+        Arrays.stream(copy).forEach(System.out::println);
 
     }
     public static void addMethods(LinkedList<String> list){

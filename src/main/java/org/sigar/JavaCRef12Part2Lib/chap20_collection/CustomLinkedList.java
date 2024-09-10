@@ -61,19 +61,6 @@ public class CustomLinkedList<T>{
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     class Node{
         T val;
         Node prev;

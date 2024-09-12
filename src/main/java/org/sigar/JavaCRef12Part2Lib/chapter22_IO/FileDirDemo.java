@@ -90,7 +90,7 @@ public class FileDirDemo {
 
     static void filterWithFileNameFilter(File file_dir,String filterString) {
         System.out.println(filterString + " = filter_string , path = " + file_dir.getPath());
-      //  Arrays.stream(file_dir.listFiles()).forEach(file -> System.out.println(file.getName()));
+      //  Arrays.stream(file_dir.listFiles()).forEach(file -> System.out.println(file.getFirstName()));
         FilenameFilter file_filter = (dir,name) -> name.contains(filterString);
         File[] files = file_dir.listFiles(file_filter);
         if(files != null) {

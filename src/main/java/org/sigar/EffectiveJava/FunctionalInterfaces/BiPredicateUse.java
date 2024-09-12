@@ -32,7 +32,7 @@ public class BiPredicateUse {
 //        people.stream()
 //                .flatMap(person1 -> people.stream()
 //                        .filter(person2 -> isCompatible.test(person1, person2))
-//                        .map(person2 -> String.format("COMPATIBLE %s %s%n", person1.getName(), person2.getName())))
+//                        .map(person2 -> String.format("COMPATIBLE %s %s%n", person1.getFirstName(), person2.getFirstName())))
 //                .distinct()
 //                .forEach(System.out::print);
 
@@ -53,7 +53,7 @@ public class BiPredicateUse {
 //            for (int secInd = ind + 1; secInd < personList.size(); secInd++) {
 //                second = personList.get(secInd);
 //                if (isCompatible.test(first, second)) {
-//                    System.out.printf("COMPATIBLE %s %s%n", first.getName(), second.getName());
+//                    System.out.printf("COMPATIBLE %s %s%n", first.getFirstName(), second.getFirstName());
 //                }
 //            }
 //        }

@@ -62,7 +62,7 @@ public class FileDemo {
 
         System.out.println(currentDir + "  currentDir  packageName  " + packageName);
 
-        // Convert the package name to a path (e.g., "com.example" -> "com/example")
+        // Convert the package firstName to a path (e.g., "com.example" -> "com/example")
         String packagePath = packageName.replace('.', File.separatorChar);
 
         // Combine the current directory with the package path
@@ -71,7 +71,7 @@ public class FileDemo {
 
         System.out.println("PackageDir " + packageDir + "  packageName " + packageName);
 
-        // Specify the file name within the package directory
+        // Specify the file firstName within the package directory
         File file = new File(packageDir, "exampleCurr5.txt");
         sleep(1000);
 

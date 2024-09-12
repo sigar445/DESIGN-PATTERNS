@@ -12,7 +12,7 @@ public class ReadFileWithFiles {
         readFile();
     }
     public static void readFile() {
-        System.out.print("Enter the file name (with path if not in the current directory): ");
+        System.out.print("Enter the file firstName (with path if not in the current directory): ");
         Scanner scanner = new Scanner(System.in);
         String fileName = scanner.nextLine();
 

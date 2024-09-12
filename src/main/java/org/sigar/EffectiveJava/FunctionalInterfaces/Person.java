@@ -23,7 +23,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return String.format("name = %s,gender = %s,age = %s",name,gender,age);
+        return String.format("firstName = %s,gender = %s,age = %s",name,gender,age);
     }
 
     public static void main(String[] args) {

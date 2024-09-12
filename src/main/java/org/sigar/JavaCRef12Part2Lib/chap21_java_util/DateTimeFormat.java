@@ -23,7 +23,7 @@ public class DateTimeFormat {
         fmt.format("%tl:%tM", cal, cal);
         System.out.println(fmt);
         fmt.close();
-        // Display month by name and number.
+        // Display month by firstName and number.
         fmt = new Formatter();
         fmt.format("%tB %tb %tm", cal, cal, cal);
         System.out.println(fmt);

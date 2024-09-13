@@ -1,0 +1,147 @@
+### **InputStream and Its Hierarchy**
+
+`InputStream` is an abstract class in Java representing an input stream of bytes. The core function of an `InputStream` is to read bytes from a source (e.g., a file, network, or memory buffer).
+
+#### **Hierarchy of InputStream**
+
+- **`java.lang.Object`**
+  - **`java.io.InputStream`** (Abstract Class)
+    - **`ByteArrayInputStream`**
+    - **`FileInputStream`**
+    - **`FilterInputStream`**
+      - **`BufferedInputStream`**
+      - **`DataInputStream`**
+      - **`PushbackInputStream`**
+    - **`PipedInputStream`**
+    - **`SequenceInputStream`**
+    - **`StringBufferInputStream`** (deprecated)
+
+#### **Most Used Subclasses of InputStream and Their Use Cases**
+
+1. **`FileInputStream`**
+   - **Purpose**: Used for reading raw byte streams from a file.
+   - **Use Case**: Reading binary data, such as image files, or when reading large text files where handling bytes directly is necessary.
+   - **Example**:
+     ```java
+     FileInputStream fis = new FileInputStream("file.txt");
+     ```
+
+2. **`BufferedInputStream`**
+   - **Purpose**: Buffers the input stream to improve performance by reducing the number of IO operations.
+   - **Use Case**: Wrapping around `FileInputStream` or other input streams when reading large files to reduce disk access times.
+   - **Example**:
+     ```java
+     BufferedInputStream bis = new BufferedInputStream(new FileInputStream("file.txt"));
+     ```
+
+3. **`ByteArrayInputStream`**
+   - **Purpose**: Allows reading from an in-memory byte array as if it were an input stream.
+   - **Use Case**: Testing or reading small chunks of data that are already in memory.
+   - **Example**:
+     ```java
+     byte[] data = "Hello".getBytes();
+     ByteArrayInputStream bais = new ByteArrayInputStream(data);
+     ```
+
+4. **`DataInputStream`**
+   - **Purpose**: Allows reading of Java primitive data types from an input stream in a machine-independent way.
+   - **Use Case**: Reading binary data that includes Java primitive types (int, float, etc.).
+   - **Example**:
+     ```java
+     DataInputStream dis = new DataInputStream(new FileInputStream("data.bin"));
+     int value = dis.readInt();
+     ```
+
+5. **`PipedInputStream`**
+   - **Purpose**: Allows reading from a pipe, which is useful for communication between threads.
+   - **Use Case**: Inter-thread communication where one thread writes data to a `PipedOutputStream` and another reads it from the corresponding `PipedInputStream`.
+   - **Example**:
+     ```java
+     PipedInputStream pis = new PipedInputStream(pipedOutputStream);
+     ```
+
+6. **`SequenceInputStream`**
+   - **Purpose**: Concatenates multiple input streams and reads them sequentially.
+   - **Use Case**: Reading from multiple files or input sources as if they were a single stream.
+   - **Example**:
+     ```java
+     SequenceInputStream sis = new SequenceInputStream(new FileInputStream("file1.txt"), new FileInputStream("file2.txt"));
+     ```
+
+---
+
+### **OutputStream and Its Subclasses**
+
+`OutputStream` is an abstract class in Java used to write data to a destination, typically an output device, file, or network socket.
+
+#### **Hierarchy of OutputStream**
+
+- **`java.lang.Object`**
+  - **`java.io.OutputStream`** (Abstract Class)
+    - **`ByteArrayOutputStream`**
+    - **`FileOutputStream`**
+    - **`FilterOutputStream`**
+      - **`BufferedOutputStream`**
+      - **`DataOutputStream`**
+      - **`PrintStream`**
+    - **`PipedOutputStream`**
+
+#### **Most Used Subclasses of OutputStream and Their Use Cases**
+
+1. **`FileOutputStream`**
+   - **Purpose**: Writes raw bytes to a file.
+   - **Use Case**: Writing binary data (e.g., images, audio files) or when writing to a file byte by byte.
+   - **Example**:
+     ```java
+     FileOutputStream fos = new FileOutputStream("output.txt");
+     ```
+
+2. **`BufferedOutputStream`**
+   - **Purpose**: Buffers the output stream, improving performance by reducing IO operations.
+   - **Use Case**: Wrapping around `FileOutputStream` or other output streams to improve write performance when writing large files.
+   - **Example**:
+     ```java
+     BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("output.txt"));
+     ```
+
+3. **`ByteArrayOutputStream`**
+   - **Purpose**: Writes data to an in-memory byte array.
+   - **Use Case**: Writing temporary data in memory, useful for building a byte stream before saving to a file.
+   - **Example**:
+     ```java
+     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+     baos.write("Hello".getBytes());
+     ```
+
+4. **`DataOutputStream`**
+   - **Purpose**: Allows writing of Java primitive data types to an output stream in a machine-independent way.
+   - **Use Case**: Writing structured data that contains Java primitive types like `int`, `float`, etc.
+   - **Example**:
+     ```java
+     DataOutputStream dos = new DataOutputStream(new FileOutputStream("data.bin"));
+     dos.writeInt(42);
+     ```
+
+5. **`PrintStream`**
+   - **Purpose**: Allows writing formatted data (strings, primitives) to an output stream.
+   - **Use Case**: Writing human-readable text to a console or file, often used in logging or printing debug information.
+   - **Example**:
+     ```java
+     PrintStream ps = new PrintStream(new FileOutputStream("log.txt"));
+     ps.println("Logging message");
+     ```
+
+6. **`PipedOutputStream`**
+   - **Purpose**: Used to write to a pipe, which is typically connected to a `PipedInputStream`.
+   - **Use Case**: Inter-thread communication where one thread writes data to a `PipedOutputStream` and another reads it from the corresponding `PipedInputStream`.
+   - **Example**:
+     ```java
+     PipedOutputStream pos = new PipedOutputStream(pipedInputStream);
+     ```
+
+---
+
+### **Conclusion**
+- **`InputStream` Hierarchy**: Represents sources from which bytes can be read.
+- **`OutputStream` Hierarchy**: Represents destinations to which bytes can be written.
+- **Most Common Use Cases**: Handling file IO, network streams, in-memory buffers, inter-thread communication, and reading/writing primitive data types.

@@ -1,0 +1,95 @@
+### 1. **BufferedReader**:
+
+`BufferedReader` is used for reading text from a character-input stream efficiently by buffering characters. It reads large chunks of data at once and stores them in a buffer, reducing the number of I/O operations needed for reading text from a file, socket, or any other input stream.
+
+#### **Key Characteristics**:
+- Buffers input, allowing for efficient reading of text, especially in large chunks.
+- Ideal for reading lines of text or multiple characters at a time.
+- It supports reading entire lines using the `readLine()` method.
+- You can wrap any `Reader` (like `FileReader`, `InputStreamReader`) with a `BufferedReader` to make it more efficient.
+
+#### **Common Methods**:
+- **`String readLine()`**: Reads a line of text, terminated by a line break (`\n`) or `\r\n`, and returns it as a `String`. Returns `null` if the end of the stream is reached.
+- **`int read()`**: Reads a single character and returns it as an integer.
+- **`int read(char[] cbuf, int off, int len)`**: Reads up to `len` characters into the specified character array.
+- **`boolean ready()`**: Returns `true` if the stream is ready to be read.
+- **`void close()`**: Closes the `BufferedReader` and releases system resources.
+
+#### **Usage Example**:
+```java
+BufferedReader reader = new BufferedReader(new FileReader("example.txt"));
+
+String line;
+while ((line = reader.readLine()) != null) {
+    System.out.println(line);
+}
+reader.close();
+```
+In this example, `BufferedReader` reads the file line by line, buffering the text to improve performance.
+
+---
+
+### 2. **PushbackReader**:
+
+`PushbackReader` is used for reading text from a character-input stream, but with the added functionality of "unreading" or "pushing back" characters that were already read. This is useful when you need to look ahead in the stream to make decisions based on future characters, then push them back into the stream if needed.
+
+#### **Key Characteristics**:
+- Extends `FilterReader` and adds a pushback buffer.
+- Allows "unreading" one or more characters, effectively pushing them back into the stream so they can be read again.
+- Useful in scenarios like parsing, where you need to examine characters ahead before deciding how to process the stream.
+
+#### **Common Methods**:
+- **`int read()`**: Reads a single character and returns it as an integer.
+- **`int read(char[] cbuf, int off, int len)`**: Reads up to `len` characters into the specified character array.
+- **`void unread(int c)`**: Pushes back a single character, making it available for subsequent reading.
+- **`void unread(char[] cbuf, int off, int len)`**: Pushes back an array of characters into the stream.
+- **`boolean ready()`**: Returns `true` if the stream is ready to be read.
+- **`void close()`**: Closes the `PushbackReader` and releases system resources.
+
+#### **Usage Example**:
+```java
+PushbackReader pushbackReader = new PushbackReader(new FileReader("example.txt"));
+
+int data;
+while ((data = pushbackReader.read()) != -1) {
+    char ch = (char) data;
+    if (ch == 'a') {
+        // If the character is 'a', push it back to the stream
+        pushbackReader.unread(ch);
+        System.out.println("Pushed back: " + ch);
+    } else {
+        System.out.print(ch);  // Print other characters
+    }
+}
+pushbackReader.close();
+```
+In this example, if the character 'a' is read, it is pushed back into the stream and can be re-read.
+
+---
+
+### **Differences between `BufferedReader` and `PushbackReader`**:
+
+| Feature              | **BufferedReader**                                | **PushbackReader**                                  |
+|----------------------|---------------------------------------------------|-----------------------------------------------------|
+| **Primary Purpose**   | Efficiently reading large chunks of text, especially for line-by-line reading. | Allows pushing back characters to be read again. Useful in parsers. |
+| **Buffering**         | Buffers the input to reduce I/O operations.       | Can buffer a single character or more for "unreading" purposes. |
+| **Line Reading**      | Provides the `readLine()` method to read lines of text. | No specific line-reading functionality. |
+| **Pushback Capability** | No pushback capabilities.                       | Allows unreading characters via the `unread()` method. |
+| **Use Case**          | Best for reading text files line-by-line or large blocks of text efficiently. | Best for parsers or situations where lookahead is needed in reading input. |
+
+---
+
+### **Use Cases**:
+
+- **`BufferedReader`**:
+  - Reading text files efficiently line by line.
+  - When performance is a concern, and multiple characters need to be read at once.
+  - Useful in situations where you want to read and process text streams without backtracking.
+
+- **`PushbackReader`**:
+  - Parsing text where you may need to read ahead in the stream and push characters back.
+  - Useful in lexical analyzers, compilers, or parsers that need to make decisions based on upcoming characters in the stream.
+
+### Summary:
+- Use `BufferedReader` for efficient reading of large text files or streams.
+- Use `PushbackReader` when you need to "unread" characters and potentially re-process them (e.g., in parsers).

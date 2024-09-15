@@ -1,0 +1,137 @@
+**Java RMI (Remote Method Invocation)** allows an object residing in one Java Virtual Machine (JVM) to invoke methods on an object in another JVM. RMI is essential for building distributed applications in Java, enabling method calls over a network as if they were local.
+
+Let's break down the components you mentioned:
+
+### 1. **RMI (Remote Method Invocation) Overview**
+- **Purpose**: RMI allows for remote communication between Java programs. It simplifies the complexity of sending data over a network by allowing method invocations on objects located remotely.
+- **How it works**: The key idea behind RMI is that it abstracts the process of remote communication by allowing a Java program to invoke a method on an object located on a different machine or JVM as though it were a local method.
+
+### 2. **UnicastRemoteObject**
+- **Purpose**: This class is a superclass for RMI server objects, which act as remote objects. It’s used to export a remote object and make it available to receive incoming remote method calls.
+- **Key Roles**:
+  1. **Exporting a Remote Object**: When a server wants to expose an object as a remote object, it subclasses `UnicastRemoteObject`. By doing so, the object becomes a remote object that can be accessed by clients across the network.
+  2. **Communication Setup**: When the object is exported, RMI runtime system takes care of the communication with clients, and handles incoming connections and method calls to the remote object.
+
+- **How it works**:
+  - By extending `UnicastRemoteObject`, you allow an object to become a remote object.
+  - The object is exported (made available for remote calls) using the `exportObject()` method (or automatically during construction if extending the class).
+  - The RMI runtime associates this object with a port and listens for incoming requests.
+
+  Example:
+  ```java
+  public class MyRemoteObject extends UnicastRemoteObject implements MyRemoteInterface {
+      public MyRemoteObject() throws RemoteException {
+          super();
+      }
+
+      public String sayHello() throws RemoteException {
+          return "Hello, world!";
+      }
+  }
+  ```
+
+### 3. **Registry**
+- **Purpose**: The RMI Registry is a namespace for binding and locating remote objects. It allows RMI clients to look up remote objects by name, and it associates these names with remote objects.
+- **Use Case**:
+  - When a server registers (or binds) a remote object with a name in the registry, a client can later use this name to look up the object, retrieve its reference, and call its methods remotely.
+
+- **How it works**:
+  - A server registers an object with the registry using a `bind()` or `rebind()` method.
+  - A client uses `lookup()` to get a reference to the remote object from the registry.
+
+  Example on the server side (registering an object):
+  ```java
+  Registry registry = LocateRegistry.createRegistry(1099); // default RMI port
+  MyRemoteInterface stub = new MyRemoteObject();
+  registry.rebind("MyRemoteObject", stub); // binding to the registry
+  ```
+
+  Example on the client side (looking up the object):
+  ```java
+  Registry registry = LocateRegistry.getRegistry("localhost");
+  MyRemoteInterface stub = (MyRemoteInterface) registry.lookup("MyRemoteObject");
+  System.out.println(stub.sayHello());
+  ```
+
+### 4. **RMI Server**
+- **Purpose**: The RMI server hosts and manages the lifecycle of remote objects that can be invoked by clients. It creates the remote objects, binds them to the registry, and listens for remote method invocations.
+- **Steps to Implement**:
+  1. Create a class that implements a remote interface.
+  2. Extend `UnicastRemoteObject` or export the object explicitly.
+  3. Register the remote object with the RMI registry.
+  4. Start the server to listen for incoming client requests.
+
+  Typical server structure:
+  ```java
+  public class MyServer {
+      public static void main(String[] args) {
+          try {
+              MyRemoteInterface stub = new MyRemoteObject();
+              Registry registry = LocateRegistry.createRegistry(1099);
+              registry.rebind("MyRemoteObject", stub);
+              System.out.println("Server is ready.");
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+      }
+  }
+  ```
+
+### 5. **RMI Client**
+- **Purpose**: The client retrieves references to remote objects from the RMI registry and invokes their methods as if they were local methods.
+- **Steps to Implement**:
+  1. Locate the remote object in the registry using `LocateRegistry.getRegistry()`.
+  2. Use `lookup()` to get the remote object.
+  3. Invoke the remote methods.
+
+  Typical client structure:
+  ```java
+  public class MyClient {
+      public static void main(String[] args) {
+          try {
+              Registry registry = LocateRegistry.getRegistry("localhost");
+              MyRemoteInterface stub = (MyRemoteInterface) registry.lookup("MyRemoteObject");
+              String response = stub.sayHello();
+              System.out.println("Response: " + response);
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+      }
+  }
+  ```
+
+---
+
+### **How These Components Relate to Each Other**:
+
+1. **RMI Client & RMI Server**:
+   - The server creates an instance of the remote object (subclass of `UnicastRemoteObject`) and binds it to the RMI registry.
+   - The client locates the registry, retrieves the remote object reference via the `lookup()` method, and invokes remote methods on it.
+
+2. **UnicastRemoteObject & RMI Server**:
+   - The server class creates instances of remote objects by extending `UnicastRemoteObject` or explicitly exporting objects. These remote objects are then registered in the RMI registry.
+
+3. **Registry & RMI Server**:
+   - The server binds remote objects in the registry under specific names. This allows clients to retrieve references to these objects using the same names.
+
+4. **Registry & RMI Client**:
+   - The client uses the registry to look up remote objects by their names, retrieve a reference, and make remote method invocations.
+
+5. **UnicastRemoteObject & RMI Client**:
+   - The client interacts with an object of a class that implements `UnicastRemoteObject`. The client doesn’t need to worry about the complexities of remote communication; it simply invokes methods on a local proxy (stub) that communicates with the remote object.
+
+---
+
+### **Use Case Example**:
+- Imagine a **remote banking application**. The RMI server might host a remote object (e.g., `BankAccount`) that provides methods like `deposit()` and `withdraw()`.
+- The server would bind an instance of `BankAccount` to the RMI registry.
+- A client would look up the `BankAccount` object in the registry and call `deposit()` or `withdraw()` remotely.
+
+### **Summary**:
+- **RMI** provides a mechanism for remote communication in Java.
+- **UnicastRemoteObject** is the class that allows remote objects to be exported.
+- **Registry** is where remote objects are registered and looked up by clients.
+- **RMI Server** hosts and registers remote objects.
+- **RMI Client** retrieves remote objects from the registry and invokes their methods.
+
+By combining these components, Java RMI allows distributed Java applications to communicate seamlessly over a network.

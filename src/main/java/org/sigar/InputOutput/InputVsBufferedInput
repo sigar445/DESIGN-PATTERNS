@@ -1,0 +1,52 @@
+### 1. **FileInputStream:**
+
+The `FileInputStream` class is used for reading raw byte data from a file. It reads the file byte by byte, which can be inefficient when reading large files because it doesn't employ buffering.
+
+#### Key Characteristics:
+- Reads raw bytes from a file.
+- Doesn't use any buffering.
+- Typically used for reading binary data such as images, audio, etc.
+- Reads data directly from the file system, which can be slower for repeated read operations.
+
+#### Common Methods:
+- **`int read()`**: Reads one byte of data from the file and returns it as an integer. If the end of the file is reached, it returns `-1`.
+- **`int read(byte[] b)`**: Reads up to `b.length` bytes of data into the specified byte array and returns the number of bytes read.
+- **`int available()`**: Returns the number of remaining bytes that can be read from the file without blocking.
+- **`void close()`**: Closes the input stream and releases any system resources associated with the file.
+
+---
+
+### 2. **BufferedInputStream:**
+
+The `BufferedInputStream` class wraps an `InputStream` (like `FileInputStream`) and adds a buffer to it, which improves performance. It reads a larger chunk of data into memory (buffer) at once and serves data from this buffer rather than directly accessing the file system each time.
+
+#### Key Characteristics:
+- Wraps around an `InputStream`, typically a `FileInputStream`.
+- Uses a buffer to read data in chunks, which reduces the number of file I/O operations.
+- Increases efficiency by minimizing direct disk access.
+- Suitable for scenarios where data needs to be read frequently or in large chunks.
+
+#### Common Methods:
+- **`int read()`**: Reads one byte of data from the input stream. If the buffer is empty, it refills it from the underlying stream.
+- **`int read(byte[] b, int off, int len)`**: Reads up to `len` bytes from the input stream into the specified byte array starting at the offset `off`.
+- **`void mark(int readlimit)`**: Marks the current position in the stream. The `readlimit` parameter specifies how many bytes can be read before the mark position becomes invalid.
+- **`void reset()`**: Resets the stream to the most recent mark.
+- **`boolean markSupported()`**: Returns `true` if the stream supports the `mark` and `reset` methods.
+- **`void close()`**: Closes the stream and releases any system resources.
+
+---
+
+### Key Differences:
+1. **Buffering:**
+   - `FileInputStream` doesn't use any buffer.
+   - `BufferedInputStream` adds a buffer to optimize read operations.
+
+2. **Performance:**
+   - `FileInputStream` is slower for repeated read operations because it reads directly from the disk.
+   - `BufferedInputStream` is faster because it minimizes disk I/O by reading larger chunks of data at once into memory.
+
+3. **Usage:**
+   - `FileInputStream` is better suited for small files or scenarios where buffering is not necessary.
+   - `BufferedInputStream` is ideal when reading larger files or when performance is a concern due to frequent reading.
+
+In practice, `BufferedInputStream` is often used when reading from files to improve efficiency, especially when working with larger data.

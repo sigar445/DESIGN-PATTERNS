@@ -1,0 +1,129 @@
+### **Introduction to NIO**
+
+Java NIO (New Input/Output) is a collection of APIs introduced in Java 1.4 as a replacement and extension to the traditional Java I/O (Input/Output) API. It offers improved performance and scalability, especially in scenarios involving a large number of input/output operations, such as handling many concurrent client connections in a server.
+
+Unlike the older I/O (which is blocking and stream-oriented), NIO is **non-blocking** and **buffer-oriented**. It provides more control over low-level I/O operations and is designed for high-performance and scalable applications.
+
+### **Key Features of NIO**
+1. **Non-blocking I/O**: NIO allows the program to continue processing while waiting for data to become available, improving the performance of applications that handle many I/O streams simultaneously.
+2. **Selectors**: A selector monitors multiple channels for events (like data available to read, or a connection ready to be accepted), enabling efficient handling of multiple channels with a single thread.
+3. **Buffers**: Instead of reading/writing data directly from/to streams, NIO uses buffers as intermediate containers of data.
+4. **Channels**: Channels are the conduits for I/O, akin to streams in the old I/O API, but they work with buffers instead of directly handling data.
+
+---
+
+### **Main Components of Java NIO**
+
+1. **Buffers**
+2. **Channels**
+3. **Selectors**
+
+#### 1. **Buffers**
+Buffers are containers for data. They are used to read and write data into channels. Buffers act as intermediaries between the application and the underlying data. They store data temporarily before it is processed or written. A buffer has three key properties: `position`, `limit`, and `capacity`.
+
+- **Types of Buffers**:
+  - `ByteBuffer`: stores bytes.
+  - `CharBuffer`: stores characters.
+  - `IntBuffer`, `LongBuffer`, `FloatBuffer`, `DoubleBuffer`, and `ShortBuffer` handle other primitive data types.
+
+**Example of Buffer Usage**:
+```java
+ByteBuffer buffer = ByteBuffer.allocate(1024);  // Allocate buffer of size 1024
+buffer.put("Hello NIO".getBytes());             // Write data to the buffer
+buffer.flip();                                  // Switch buffer from writing to reading mode
+
+while (buffer.hasRemaining()) {
+    System.out.print((char) buffer.get());      // Read the buffer content
+}
+```
+
+#### 2. **Channels**
+Channels are similar to streams in traditional I/O, but they work with buffers to transfer data. A channel can read data into a buffer or write data from a buffer. Unlike streams, channels are bi-directional (can be used for both reading and writing), and they can also be asynchronous.
+
+- **Types of Channels**:
+  - `FileChannel`: for file I/O.
+  - `SocketChannel`: for reading/writing data over a network socket.
+  - `ServerSocketChannel`: listens for incoming network connections.
+  - `DatagramChannel`: handles UDP connections.
+
+**Example of Channel Usage**:
+```java
+FileInputStream fis = new FileInputStream("data.txt");
+FileChannel channel = fis.getChannel();         // Obtain the FileChannel from the FileInputStream
+ByteBuffer buffer = ByteBuffer.allocate(1024);  // Create a buffer of size 1024
+
+int bytesRead = channel.read(buffer);           // Read data from the channel into the buffer
+buffer.flip();                                  // Prepare the buffer for reading
+
+while (buffer.hasRemaining()) {
+    System.out.print((char) buffer.get());      // Read data from the buffer
+}
+channel.close();                                // Close the channel
+```
+
+#### 3. **Selectors**
+Selectors are used to handle multiple channels using a single thread. Instead of creating a new thread for each channel, a selector can monitor many channels and process them only when they are ready (e.g., when there is data to read or write). This enables scalable I/O operations.
+
+Selectors work with **non-blocking channels**, where I/O operations do not wait for the process to complete and can return immediately.
+
+- **Key Selector Methods**:
+  - `select()`: Blocks until at least one channel is ready for an I/O operation.
+  - `selectNow()`: Non-blocking version of `select()`, returns immediately.
+  - `select(timeout)`: Blocks until at least one channel is ready or timeout expires.
+
+**Example of Selector Usage**:
+```java
+Selector selector = Selector.open();                         // Create a selector
+ServerSocketChannel serverSocket = ServerSocketChannel.open(); // Open a server socket channel
+serverSocket.bind(new InetSocketAddress(8080));               // Bind to a port
+serverSocket.configureBlocking(false);                        // Set the channel to non-blocking
+serverSocket.register(selector, SelectionKey.OP_ACCEPT);      // Register the channel with the selector
+
+while (true) {
+    selector.select();                                        // Wait for events (blocking)
+    Set<SelectionKey> selectedKeys = selector.selectedKeys(); // Get the keys for the ready channels
+    Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
+
+    while (keyIterator.hasNext()) {
+        SelectionKey key = keyIterator.next();
+
+        if (key.isAcceptable()) {
+            // A connection was accepted by the server socket channel
+            SocketChannel clientChannel = serverSocket.accept();
+            clientChannel.configureBlocking(false);
+            clientChannel.register(selector, SelectionKey.OP_READ);
+        } else if (key.isReadable()) {
+            // A channel is ready for reading
+            SocketChannel clientChannel = (SocketChannel) key.channel();
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            clientChannel.read(buffer);
+            buffer.flip();
+            System.out.println("Received: " + new String(buffer.array()).trim());
+        }
+        keyIterator.remove();  // Remove the processed key from the iterator
+    }
+}
+```
+
+### **NIO vs. Traditional I/O**
+
+| Feature              | Traditional I/O                         | NIO                                      |
+|----------------------|-----------------------------------------|------------------------------------------|
+| **Blocking**          | Blocking (read/write operations wait)   | Non-blocking (operations return immediately) |
+| **Stream-Oriented**   | Works with streams (bytes or characters)| Works with buffers (data containers)     |
+| **Concurrency**       | Requires one thread per connection      | Uses selectors to manage multiple channels with one thread |
+| **Data Handling**     | Reads/writes one byte at a time         | Transfers large blocks of data via buffers |
+
+### **Modern Usage of Java NIO**
+
+Java NIO is often used in **high-performance server applications** that need to handle thousands of simultaneous client connections, such as web servers, chat servers, or high-performance file I/O applications.
+
+#### Key Modern Use Cases:
+1. **Non-blocking servers**: Servers that can handle thousands of concurrent connections (e.g., using `ServerSocketChannel` and `Selector`).
+2. **File operations**: Efficient file I/O operations using `FileChannel` and memory-mapped files (`MappedByteBuffer`).
+3. **Scalable network applications**: Applications using `SocketChannel` and `DatagramChannel` for scalable networking.
+4. **Asynchronous I/O (AIO)**: NIO also has an asynchronous I/O extension (`AsynchronousSocketChannel`, `AsynchronousFileChannel`) for further performance improvement, introduced in Java 7.
+
+### **Conclusion**
+
+Java NIO provides a powerful alternative to traditional I/O, offering non-blocking, buffer-oriented, and more scalable approaches to handle I/O operations. It is especially useful for applications that need to manage multiple I/O streams simultaneously and efficiently, such as network servers or high-performance file systems. The key components—Buffers, Channels, and Selectors—allow for fine-tuned control over I/O processes.

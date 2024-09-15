@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="940149c4-8b6d-410b-8865-a809251a642b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2m4MlVE4uz6DeWXb03H7Sb0pw18" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BufferedInputStreamDemo.executor": "Run",
+    "Application.ByteArrayOutputStreamDemo.executor": "Run",
+    "Application.ConsoleDemo.executor": "Run",
+    "Application.CustomFISDemo.executor": "Run",
+    "Application.FileDemo.executor": "Run",
+    "Application.FileOutputStreamDemo.executor": "Run",
+    "Application.FormatterDemo.executor": "Run",
+    "Application.InetAddressDemo.executor": "Run",
+    "Application.InputStreamDemo.executor": "Run",
+    "Application.NavigableSetDemo.executor": "Run",
+    "Application.RBdemo.executor": "Run",
+    "Application.RMIClient.executor": "Run",
+    "Application.RMIServer.executor": "Run",
+    "Application.ScannerDemo.executor": "Run",
+    "Application.SerializationDemo.executor": "Run",
+    "Application.SortedSetDemo.executor": "Run",
+    "Application.TimeDateFormat.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/gaura/IdeaProjects/OOPSPractice/pom.xml"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.InetAddressDemo">
+    <configuration name="ConsoleDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.InputOutput.ConsoleDemo" />
+      <module name="SoftwareBooksCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sigar.InputOutput.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InetAddressDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.JavaCRef12Part2Lib.chapter24_networking.InetAddressDemo" />
+      <module name="SoftwareBooksCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sigar.JavaCRef12Part2Lib.chapter24_networking.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RMIClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Serialization.RMIClient" />
+      <module name="SoftwareBooksCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sigar.Serialization.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RMIServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Serialization.RMIServer" />
+      <module name="SoftwareBooksCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sigar.Serialization.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SerializationDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Serialization.BookExample.SerializationDemo" />
+      <module name="SoftwareBooksCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.sigar.Serialization.BookExample.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.InetAddressDemo" />
+        <item itemvalue="Application.SerializationDemo" />
+        <item itemvalue="Application.RMIClient" />
+        <item itemvalue="Application.RMIServer" />
+        <item itemvalue="Application.ConsoleDemo" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="940149c4-8b6d-410b-8865-a809251a642b" name="Changes" comment="" />
+      <created>1726331545963</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726331545963</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.MissingResourceException" package="java.util" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

@@ -1,0 +1,133 @@
+The `java.net.SocketException: Connection reset` error occurs when the TCP connection is closed abruptly by the peer (the server in this case). This could happen for several reasons:
+
+### Possible Causes and Solutions:
+
+1. **Server-Side Disconnection or Timeout:**
+   - The server might be closing the connection due to a timeout or other reasons (e.g., resource exhaustion or not handling client requests correctly). Ensure that the server is still running and actively listening for connections.
+   - **Solution:** Check if the server accepts and keeps the connection open. Look at server logs for any errors or warnings when the client connects or sends data.
+
+2. **Unintentional Connection Closure on the Server:**
+   - In the server code, you have this check:
+     ```java
+     if (bytesRead == -1) {
+         // Client has closed the connection
+         System.out.println("Client disconnected: " + clientChannel.getRemoteAddress());
+         clientChannel.close();
+     }
+     ```
+     However, it's possible that the client doesn't intend to close the connection yet. The `-1` indicates that the connection has been closed on the client side, but if the client isn't intending to close, this could result in the server closing the connection unexpectedly.
+
+   - **Solution:** Ensure that the server does not prematurely close the connection and checks the client’s state correctly. Also, ensure the client doesn’t send an unexpected close signal.
+
+3. **Sending Empty or Corrupted Data:**
+   - If the client sends data in an incorrect format or the buffer gets corrupted, the server might reject the connection and reset it.
+
+   - **Solution:** Verify that the client is sending valid data and the buffer is properly handled. For instance, after sending the data, the buffer should be cleared or rewound to avoid corrupted transmissions.
+
+4. **TCP RST (Reset) Packet:**
+   - A TCP RST packet could be sent by the server due to incorrect or unexpected data being received from the client. The server could reset the connection if the data format is not what it expects.
+
+   - **Solution:** Ensure the client is sending data in the correct format and that the server properly handles and responds to that data.
+
+5. **Non-blocking Mode and Immediate Read:**
+   - In non-blocking mode, it's possible that the `read()` method is called too early, before the server has sent any data or before the connection is fully established, causing a reset.
+
+   - **Solution:** Add a check before attempting to read, ensuring the connection is fully established and data is ready to be read.
+
+### Updated Client Code with Improved Error Handling:
+
+You can improve the handling of the `SocketChannel` to ensure it doesn't attempt to read prematurely and add better error handling:
+
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+import java.util.Set;
+
+public class NioTcpSocketChannel {
+
+    public static void nioTCPSocket() throws IOException {
+        try (Selector selector = Selector.open();
+             SocketChannel socketChannel = SocketChannel.open()) {
+
+            socketChannel.configureBlocking(false);
+            socketChannel.connect(new InetSocketAddress("localhost", 8080));
+
+            // Register the socket for connection events
+            socketChannel.register(selector, SelectionKey.OP_CONNECT);
+
+            while (true) {
+                // Select the channels that are ready for I/O operations
+                selector.select();
+
+                // Get the selection keys and iterate through them
+                Set<SelectionKey> selectedKeys = selector.selectedKeys();
+                Iterator<SelectionKey> iter = selectedKeys.iterator();
+
+                while (iter.hasNext()) {
+                    SelectionKey key = iter.next();
+                    iter.remove();
+
+                    if (key.isConnectable()) {
+                        // Complete the connection process
+                        SocketChannel channel = (SocketChannel) key.channel();
+                        if (channel.isConnectionPending()) {
+                            channel.finishConnect();
+                        }
+                        channel.register(selector, SelectionKey.OP_READ); // Register for reading
+
+                        // Send data to server
+                        ByteBuffer buffer = ByteBuffer.allocate(256);
+                        buffer.put("Hello Server!".getBytes());
+                        buffer.flip();
+                        channel.write(buffer);
+                    } else if (key.isReadable()) {
+                        // Read data from the server
+                        SocketChannel channel = (SocketChannel) key.channel();
+                        ByteBuffer buffer = ByteBuffer.allocate(256);
+
+                        try {
+                            int bytesRead = channel.read(buffer);
+                            if (bytesRead == -1) {
+                                // Server closed the connection
+                                System.out.println("Server closed the connection.");
+                                channel.close();
+                                return; // Exit the loop or method
+                            }
+
+                            buffer.flip(); // Prepare buffer for reading
+                            String response = new String(buffer.array(), 0, buffer.limit()).trim();
+                            System.out.println("Server Response: " + response);
+                        } catch (IOException e) {
+                            System.out.println("Connection reset by server.");
+                            channel.close(); // Close the channel if there's an exception
+                            return; // Exit the loop or method
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        nioTCPSocket();
+    }
+}
+```
+
+### Additional Suggestions:
+
+1. **Server-Side Improvements:**
+   - Make sure the server handles multiple clients correctly, especially if it's accepting and reading from clients in a loop. Ensure it doesn't close the connection prematurely.
+
+2. **Logging:**
+   - Add more logging to both client and server to see exactly where the issue occurs.
+
+3. **Buffer Size:**
+   - If large data is being sent, ensure that the buffer size is appropriate. The buffer might overflow if not sized correctly.
+
+By applying these solutions and improvements, the client should be able to maintain a stable connection to the server and avoid the `Connection reset` error. Let me know if the issue persists or if you need further assistance!

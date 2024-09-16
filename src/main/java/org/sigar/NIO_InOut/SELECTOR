@@ -1,0 +1,72 @@
+Let’s break down each line of the code in detail, focusing on the key NIO components like `Selector`, `SocketChannel`, and the operations being performed.
+
+### 1. **`Selector selector = Selector.open();`**
+
+#### What is a `Selector`?
+- A `Selector` is a Java NIO component that allows a single thread to monitor multiple channels (such as `SocketChannel`, `DatagramChannel`, or `ServerSocketChannel`) for events, such as readiness for reading, writing, or connecting.
+- The primary purpose of a `Selector` is **multiplexing**: it allows you to monitor multiple channels in a non-blocking way. This is useful for efficiently handling many connections (such as in a server that handles many clients), without the need to dedicate one thread per connection.
+
+#### What does `Selector.open()` do?
+- `Selector.open()` is a factory method that creates and returns a new `Selector` instance.
+- Internally, this method interacts with the underlying operating system to create an I/O multiplexing mechanism, such as **`epoll`** in Linux or **`select`** in older systems.
+- Once a `Selector` is created, it can be used to monitor multiple channels for events like **connect**, **read**, **write**, or **accept** without blocking the thread.
+
+In summary, `Selector.open()` creates a selector to allow us to register multiple channels and handle them efficiently in a non-blocking manner.
+
+### 2. **`SocketChannel socketChannel = SocketChannel.open();`**
+
+#### What is a `SocketChannel`?
+- A `SocketChannel` in Java NIO is a channel that represents a TCP connection (client-side). It is an alternative to the traditional `Socket` class but operates in a non-blocking way.
+- `SocketChannel` allows reading and writing to a TCP connection, and it can be configured to operate in either blocking or non-blocking modes.
+
+#### What does `SocketChannel.open()` do?
+- `SocketChannel.open()` is a static method that opens a new TCP connection and creates a `SocketChannel` object. This channel is initially in blocking mode, but we can later configure it to non-blocking mode (which we do in the next line).
+- The channel is in a disconnected state at this point, so we will need to connect it later using the `connect()` method.
+
+In summary, this line creates a new `SocketChannel`, which will be used to establish a TCP connection to a server.
+
+### 3. **`socketChannel.configureBlocking(false);`**
+
+#### What is Blocking and Non-Blocking Mode?
+- **Blocking mode** means that I/O operations (such as reading from or writing to a channel) will block the current thread until the operation completes. This is the default mode for most I/O operations.
+- **Non-blocking mode**, on the other hand, allows the thread to perform an operation (like reading, writing, or connecting), and if the operation cannot be completed immediately, the method will return without blocking the thread. This is useful for building efficient, scalable I/O operations.
+
+#### What does `configureBlocking(false)` do?
+- `configureBlocking(false)` sets the `SocketChannel` into **non-blocking mode**. This means that the `connect()`, `read()`, and `write()` methods on this channel will return immediately if they cannot complete the operation, rather than blocking the thread.
+- In non-blocking mode, you will often use a `Selector` to monitor the readiness of the channel (for example, whether it’s ready to read or write).
+
+In summary, this line configures the `SocketChannel` so that it operates in non-blocking mode, which is essential when using a `Selector`.
+
+### 4. **`socketChannel.connect(new InetSocketAddress("localhost", 8080));`**
+
+#### What does `connect()` do?
+- `connect()` attempts to establish a connection to the remote server specified by the `InetSocketAddress` (which in this case is `localhost` on port `8080`).
+- In **non-blocking mode**, the `connect()` method behaves differently than in blocking mode. When called, it initiates the connection process but returns immediately. The connection may not be completed by the time the method returns.
+- The `SocketChannel` will remain in a **"pending connection"** state, and you can use the `Selector` to monitor when the connection is completed.
+
+#### What is `InetSocketAddress`?
+- `InetSocketAddress` is a class that encapsulates the IP address and port number of the server you want to connect to. In this case, we are connecting to `localhost` (which is the local machine) on port `8080`.
+
+In summary, this line starts the process of connecting to a server on the local machine (on port 8080). Since the `SocketChannel` is in non-blocking mode, the connection will likely be pending, and you’ll need to monitor it using a `Selector`.
+
+### 5. **`socketChannel.register(selector, SelectionKey.OP_CONNECT);`**
+
+#### What does `register()` do?
+- `register()` is used to register the `SocketChannel` with the `Selector`. This means that the `Selector` will monitor the `SocketChannel` for specific events.
+- The second argument, `SelectionKey.OP_CONNECT`, indicates that we are interested in the **connect event**. This tells the `Selector` to notify us when the channel has completed its connection process.
+
+#### What is a `SelectionKey`?
+- A `SelectionKey` represents the registration of a `Channel` (like `SocketChannel`) with a `Selector`. It indicates what operations the channel is interested in (e.g., connect, read, write).
+- In this case, `SelectionKey.OP_CONNECT` is used to specify that the `Selector` should monitor the channel for a connection completion event.
+
+In summary, this line registers the `SocketChannel` with the `Selector` and tells it to monitor the channel for when the connection to the server is complete.
+
+### Flow Overview
+
+1. **Create a Selector**: The `Selector.open()` method initializes a selector, which will be used to monitor multiple channels for various events.
+2. **Create a SocketChannel**: `SocketChannel.open()` opens a new channel to handle TCP communication. This channel is not yet connected.
+3. **Set Non-blocking Mode**: `socketChannel.configureBlocking(false)` ensures that operations on the channel (like connecting or reading) will not block the thread, allowing the selector to handle multiple connections efficiently.
+4. **Connect to the Server**: The `connect()` method attempts to initiate a connection to the server (in non-blocking mode, the connection may be pending).
+5. **Register with Selector**: The `register()` method registers the `SocketChannel` with the `Selector` and specifies that we want to be notified when the connection is established (via the `SelectionKey.OP_CONNECT` event).
+
+Once this setup is done, the `Selector` will continuously check for channels that are ready to complete their connection, read data, or write data, depending on the events it’s registered for. This makes the program efficient for handling multiple I/O operations concurrently.

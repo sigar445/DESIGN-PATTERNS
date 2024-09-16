@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="940149c4-8b6d-410b-8865-a809251a642b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +33,9 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="2m4MlVE4uz6DeWXb03H7Sb0pw18" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -51,27 +52,40 @@
     "Application.InetAddressDemo.executor": "Run",
     "Application.InputStreamDemo.executor": "Run",
     "Application.NavigableSetDemo.executor": "Run",
+    "Application.NioFileChannel.executor": "Run",
+    "Application.NioMultipleSocketChannelConnector.executor": "Run",
+    "Application.NioTCPClient.executor": "Run",
+    "Application.NioTcpServer.executor": "Run",
+    "Application.NioTcpSocketChannel.executor": "Run",
+    "Application.NioUdpDatagramChannel.executor": "Run",
+    "Application.NioUdpServer.executor": "Run",
+    "Application.PropertyDemo.executor": "Run",
     "Application.RBdemo.executor": "Run",
     "Application.RMIClient.executor": "Run",
     "Application.RMIServer.executor": "Run",
     "Application.ScannerDemo.executor": "Run",
     "Application.SerializationDemo.executor": "Run",
     "Application.SortedSetDemo.executor": "Run",
+    "Application.TCP_SERVER.executor": "Run",
     "Application.TimeDateFormat.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gaura/IdeaProjects/OOPSPractice/pom.xml"
+    "last_opened_file_path": "C:/Users/gaura/IdeaProjects/OOPSPractice/pom.xml",
+    "project.structure.last.edited": "Global Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.InetAddressDemo">
-    <configuration name="ConsoleDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.InputOutput.ConsoleDemo" />
+  <component name="RunManager" selected="Application.NioTcpServer">
+    <configuration name="NioFileChannel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioFileChannel" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.InputOutput.*" />
+          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -79,12 +93,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InetAddressDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.JavaCRef12Part2Lib.chapter24_networking.InetAddressDemo" />
+    <configuration name="NioMultipleSocketChannelConnector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioMultipleSocketChannelConnector" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.JavaCRef12Part2Lib.chapter24_networking.*" />
+          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -92,12 +106,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RMIClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Serialization.RMIClient" />
+    <configuration name="NioTCPClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioTCPClient" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Serialization.*" />
+          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -105,12 +119,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RMIServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Serialization.RMIServer" />
+    <configuration name="NioTcpServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioTcpServer" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Serialization.*" />
+          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -118,12 +132,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SerializationDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Serialization.BookExample.SerializationDemo" />
+    <configuration name="NioTcpSocketChannel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioTcpSocketChannel" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Serialization.BookExample.*" />
+          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -133,11 +147,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.InetAddressDemo" />
-        <item itemvalue="Application.SerializationDemo" />
-        <item itemvalue="Application.RMIClient" />
-        <item itemvalue="Application.RMIServer" />
-        <item itemvalue="Application.ConsoleDemo" />
+        <item itemvalue="Application.NioTcpServer" />
+        <item itemvalue="Application.NioMultipleSocketChannelConnector" />
+        <item itemvalue="Application.NioTcpSocketChannel" />
+        <item itemvalue="Application.NioTCPClient" />
+        <item itemvalue="Application.NioFileChannel" />
       </list>
     </recent_temporary>
   </component>
@@ -159,6 +173,60 @@
           <properties class="java.util.MissingResourceException" package="java.util" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioUdpDatagramChannel.java</url>
+          <line>8</line>
+          <properties class="org.sigar.NIO_InOut.NioUdpDatagramChannel" method="main">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioMultipleSocketChannelConnector.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioMultipleSocketChannelConnector.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioTcpServer.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioTcpServer.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioTcpServer.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioTcpServer.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioMultipleSocketChannelConnector.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioTcpServer.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioMultipleSocketChannelConnector.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

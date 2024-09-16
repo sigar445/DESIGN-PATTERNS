@@ -1,0 +1,114 @@
+The `Path` interface, introduced in Java NIO.2 (Java 7), provides an abstraction to represent a file path in the file system. It encapsulates the location of a file or directory in the file system, making it more flexible than the old `File` class from earlier Java versions. `Path` is part of the `java.nio.file` package and is key to NIO.2's enhanced file-handling features.
+
+### Key Features of `Path`:
+
+1. **Encapsulation of a File Path**:
+   - A `Path` object represents a path to a file or directory. This can be an absolute path (starting from the root) or a relative path (relative to some other path).
+
+2. **Integration with NIO.2 Features**:
+   - Many NIO.2 classes use `Path` objects as the primary way to handle file operations (like reading, writing, copying, moving, etc.). It works seamlessly with the `Files` class in Java for various file operations.
+
+3. **Platform Independence**:
+   - It handles system-dependent path separators (such as `\` on Windows and `/` on UNIX/Linux) internally, making the code platform-independent.
+
+4. **Path Inheritance**:
+   - `Path` inherits three important interfaces:
+     - **Watchable**: Allows the `Path` to be registered for monitoring changes (e.g., file creation, deletion, modification).
+     - **Comparable<Path>**: `Path` objects can be compared, enabling sorting and other comparison-based operations.
+     - **Iterable<Path>**: A `Path` object can be treated as a collection of path elements (such as directory names), allowing iteration through each component of the path.
+
+### `Path` Key Methods:
+
+- **`getFileName()`**: Returns the name of the file or directory represented by the `Path`.
+- **`getParent()`**: Returns the `Path` representing the parent directory.
+- **`toAbsolutePath()`**: Converts a relative path into an absolute path.
+- **`register(WatchService watcher, WatchEvent.Kind<?>... events)`**: Registers the `Path` with a `WatchService` to monitor file events.
+- **`compareTo(Path other)`**: Compares two `Path` objects lexicographically.
+
+### Example Using `Watchable`, `Comparable`, and `Iterable`:
+
+```java
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Iterator;
+
+public class PathExample {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        // 1. Create a Path object
+        Path path = Paths.get("example_directory/example_file.txt");
+
+        // --- Watchable Interface ---
+        // Watch for changes in the directory where the file resides
+        WatchService watchService = FileSystems.getDefault().newWatchService();
+        Path dirPath = Paths.get("example_directory"); // Directory path
+
+        // Register the directory with the WatchService to monitor for CREATE, DELETE, and MODIFY events
+        dirPath.register(watchService, StandardWatchEventKinds.ENTRY_CREATE,
+                         StandardWatchEventKinds.ENTRY_DELETE,
+                         StandardWatchEventKinds.ENTRY_MODIFY);
+
+        // Start a thread to watch for changes in the directory
+        new Thread(() -> {
+            try {
+                WatchKey key;
+                while ((key = watchService.take()) != null) {
+                    for (WatchEvent<?> event : key.pollEvents()) {
+                        System.out.println("Event kind: " + event.kind() +
+                                           ". File affected: " + event.context() + ".");
+                    }
+                    key.reset();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+
+        // --- Comparable Interface ---
+        // Compare two paths lexicographically
+        Path anotherPath = Paths.get("example_directory/another_file.txt");
+        int comparisonResult = path.compareTo(anotherPath);
+
+        if (comparisonResult < 0) {
+            System.out.println(path.getFileName() + " comes before " + anotherPath.getFileName());
+        } else if (comparisonResult > 0) {
+            System.out.println(path.getFileName() + " comes after " + anotherPath.getFileName());
+        } else {
+            System.out.println(path.getFileName() + " is the same as " + anotherPath.getFileName());
+        }
+
+        // --- Iterable Interface ---
+        // Iterate over the components of the Path
+        System.out.println("Path components:");
+        for (Path part : path) {
+            System.out.println(part);
+        }
+
+        // Alternatively, using iterator explicitly
+        System.out.println("\nPath components (using Iterator):");
+        Iterator<Path> iterator = path.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
+        // Give the watch service some time to catch file changes (you can modify files in the directory to trigger events)
+        Thread.sleep(10000); // Sleep for 10 seconds to allow the watch service to capture events
+    }
+}
+```
+
+### Explanation of the Code:
+1. **`Watchable` (Monitoring File System Changes)**:
+   - The `Path` object (`dirPath`) is registered with a `WatchService` to monitor events like file creation, deletion, and modification. A new thread is started to handle these events asynchronously.
+   - When a change happens in the directory (like creating or modifying `example_file.txt`), an event is printed out.
+
+2. **`Comparable<Path>` (Comparing Paths)**:
+   - The `compareTo()` method compares two `Path` objects lexicographically. It outputs which file comes first or whether they are the same.
+
+3. **`Iterable<Path>` (Iterating Over Path Components)**:
+   - The `Path` object can be iterated over as a sequence of its individual components (e.g., `example_directory` and `example_file.txt`). This demonstrates the `Iterable` functionality of `Path`.
+
+### Summary:
+- `Path` in NIO.2 is a versatile and powerful interface used for working with file and directory paths.
+- It integrates with the `WatchService` for monitoring file system events, supports lexicographical comparison via `Comparable<Path>`, and allows iteration over its components with `Iterable<Path>`.
+- The provided example demonstrates how to monitor changes, compare paths, and iterate through path components in a flexible and platform-independent manner.

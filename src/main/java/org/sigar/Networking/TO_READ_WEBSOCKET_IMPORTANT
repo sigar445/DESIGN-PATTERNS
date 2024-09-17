@@ -1,0 +1,227 @@
+### WebSocket in Java
+
+The `WebSocket` API in Java supports **full-duplex**, **bidirectional** communication between a client and a server. This is especially useful for real-time applications like chat apps, live updates, stock tickers, multiplayer games, etc. The WebSocket protocol differs from the HTTP protocol, as it allows long-lived connections where both the server and the client can send and receive messages asynchronously.
+
+Java provides WebSocket support in the `javax.websocket` package (for servers) and in libraries such as **Tyrus** or frameworks like **Spring Boot** (for clients).
+
+### Example of WebSocket Usage (Synchronous and Asynchronous):
+
+#### 1. **Synchronous WebSocket Server (Java)**
+
+This example will create a WebSocket server that synchronously sends and receives messages.
+
+```java
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+
+@ServerEndpoint("/echo")
+public class WebSocketServerSync {
+
+    // Open WebSocket connection
+    @OnOpen
+    public void onOpen(Session session) {
+        System.out.println("New connection opened: " + session.getId());
+    }
+
+    // Receive message from client
+    @OnMessage
+    public String onMessage(String message, Session session) {
+        System.out.println("Received from client: " + message);
+        return "Echo: " + message;  // Send message back to client
+    }
+
+    // Close WebSocket connection
+    @OnClose
+    public void onClose(Session session) {
+        System.out.println("Connection closed: " + session.getId());
+    }
+
+    // Handle errors
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        System.err.println("Error in session " + session.getId() + ": " + throwable.getMessage());
+    }
+}
+```
+
+In this example:
+- **@ServerEndpoint**: This annotation declares the WebSocket endpoint at `/echo`.
+- **onMessage()**: This method receives messages from clients and synchronously sends back an "echo" message.
+- **onOpen()**, **onClose()**, and **onError()**: Methods that handle WebSocket lifecycle events (connection opened, closed, and errors).
+
+#### 2. **Synchronous WebSocket Client (Java)**
+
+Here’s how to create a WebSocket client that synchronously connects to the above server.
+
+```java
+import javax.websocket.*;
+import java.net.URI;
+
+@ClientEndpoint
+public class WebSocketClientSync {
+
+    private static Object waitLock = new Object();
+
+    @OnOpen
+    public void onOpen(Session session) {
+        System.out.println("Connected to server: " + session.getId());
+        try {
+            session.getBasicRemote().sendText("Hello Server");  // Send message to server
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @OnMessage
+    public void onMessage(String message, Session session) {
+        System.out.println("Received from server: " + message);
+        synchronized (waitLock) {
+            waitLock.notifyAll();  // Notify when message is received
+        }
+    }
+
+    @OnClose
+    public void onClose(Session session) {
+        System.out.println("Connection closed: " + session.getId());
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        System.err.println("Error: " + throwable.getMessage());
+    }
+
+    public static void main(String[] args) {
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        String uri = "ws://localhost:8080/echo";  // WebSocket server URI
+        try {
+            container.connectToServer(WebSocketClientSync.class, URI.create(uri));
+            synchronized (waitLock) {
+                waitLock.wait();  // Wait for response from the server
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this client:
+- **@ClientEndpoint**: Marks this class as a WebSocket client endpoint.
+- **session.getBasicRemote().sendText()**: Sends a message to the server.
+- **waitLock**: Used to keep the main thread running until a message is received from the server.
+
+#### 3. **Asynchronous WebSocket Server (Java)**
+
+For asynchronous communication, the WebSocket API allows non-blocking message processing. The server can send messages asynchronously by invoking the `sendAsync()` method.
+
+```java
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.util.concurrent.CompletableFuture;
+
+@ServerEndpoint("/asyncEcho")
+public class WebSocketServerAsync {
+
+    @OnOpen
+    public void onOpen(Session session) {
+        System.out.println("Async connection opened: " + session.getId());
+    }
+
+    @OnMessage
+    public void onMessage(String message, Session session) {
+        System.out.println("Received from client: " + message);
+
+        // Send response asynchronously
+        CompletableFuture.runAsync(() -> {
+            try {
+                session.getBasicRemote().sendText("Async Echo: " + message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @OnClose
+    public void onClose(Session session) {
+        System.out.println("Async connection closed: " + session.getId());
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        System.err.println("Error in session " + session.getId() + ": " + throwable.getMessage());
+    }
+}
+```
+
+This server asynchronously responds to the client by using `CompletableFuture.runAsync()` to send the message. This allows the server to process other requests while waiting for the asynchronous task to complete.
+
+#### 4. **Asynchronous WebSocket Client (Java)**
+
+Here's how to implement a WebSocket client that handles asynchronous message sending and receiving.
+
+```java
+import javax.websocket.*;
+import java.net.URI;
+import java.util.concurrent.CompletableFuture;
+
+@ClientEndpoint
+public class WebSocketClientAsync {
+
+    @OnOpen
+    public void onOpen(Session session) {
+        System.out.println("Connected to server: " + session.getId());
+
+        // Send message asynchronously
+        CompletableFuture.runAsync(() -> {
+            try {
+                session.getBasicRemote().sendText("Hello Async Server");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @OnMessage
+    public void onMessage(String message, Session session) {
+        System.out.println("Received from server: " + message);
+    }
+
+    @OnClose
+    public void onClose(Session session) {
+        System.out.println("Connection closed: " + session.getId());
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        System.err.println("Error: " + throwable.getMessage());
+    }
+
+    public static void main(String[] args) {
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        String uri = "ws://localhost:8080/asyncEcho";
+        try {
+            container.connectToServer(WebSocketClientAsync.class, URI.create(uri));
+            Thread.sleep(5000);  // Keep the client running to wait for a response
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Running the Example:
+1. **Server**: Deploy the WebSocket server in a Java EE container or a standalone WebSocket container like Tyrus.
+2. **Client**: Run the client in a separate JVM. Ensure that the URI matches the server endpoint.
+
+### Key Points:
+- **Synchronous**: The client and server communicate synchronously, and the responses are returned immediately. This is fine for simple use cases.
+- **Asynchronous**: The server and client can send/receive messages independently of each other. It improves performance and is useful for real-time communication where events need to be handled in parallel without blocking the main thread.
+
+### Use Cases for WebSocket:
+- **Real-time applications**: Chat systems, stock tickers, live sports updates.
+- **Multiplayer games**: For real-time interactions between players.
+- **Collaborative platforms**: Google Docs-style live editing.
+- **Streaming data**: Live media streaming, sensor data updates.
+
+WebSockets provide a scalable and efficient mechanism for real-time, bidirectional communication between servers and clients, especially in modern-day applications requiring low-latency communication.

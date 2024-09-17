@@ -1,0 +1,166 @@
+### **`InetAddress` Class in Java**
+
+The `InetAddress` class in Java represents an IP address, which can be either an IPv4 or IPv6 address. It is part of the `java.net` package and provides functionality to work with IP addresses, such as resolving hostnames to IP addresses and vice versa. The `InetAddress` class is used in network programming to facilitate communication over the internet or a local network.
+
+### **Key Features of `InetAddress`**
+1. **Hostname Resolution**: The `InetAddress` class can be used to get the IP address of a hostname, or retrieve the hostname of a given IP address.
+2. **IP Address Representation**: It represents both IPv4 and IPv6 addresses.
+3. **Host Lookup**: Provides methods to look up a local or remote host.
+4. **Loopback Address**: It can identify the loopback address (the address of the local machine).
+
+### **Common Methods of `InetAddress`**
+
+- `getByName(String host)`: Returns an `InetAddress` object for the given hostname.
+- `getAllByName(String host)`: Returns an array of `InetAddress` objects for the given hostname, useful when a host has multiple IP addresses.
+- `getLocalHost()`: Returns the `InetAddress` object that represents the local machine.
+- `getHostName()`: Returns the hostname of the IP address represented by this `InetAddress`.
+- `getHostAddress()`: Returns the IP address as a string.
+- `isReachable(int timeout)`: Tests if the address is reachable within the specified timeout.
+
+### **Basic Usage of `InetAddress`**
+
+Here are some examples showing how to use the `InetAddress` class in Java.
+
+#### 1. **Get IP Address of a Host**
+The following example demonstrates how to get the IP address of a given hostname.
+
+```java
+import java.net.InetAddress;
+
+public class InetAddressExample {
+
+    public static void main(String[] args) {
+        try {
+            // Get InetAddress object for a hostname (e.g., google.com)
+            InetAddress address = InetAddress.getByName("google.com");
+
+            // Display the IP address and hostname
+            System.out.println("Host Name: " + address.getHostName());
+            System.out.println("IP Address: " + address.getHostAddress());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**Output**:
+```
+Host Name: google.com
+IP Address: 142.250.190.206
+```
+
+#### 2. **Get Local Host IP Address**
+
+You can use the `getLocalHost()` method to retrieve the IP address of the local machine.
+
+```java
+import java.net.InetAddress;
+
+public class LocalHostExample {
+
+    public static void main(String[] args) {
+        try {
+            // Get InetAddress object for the local host
+            InetAddress localAddress = InetAddress.getLocalHost();
+
+            // Display the local host's IP address and hostname
+            System.out.println("Local Host Name: " + localAddress.getHostName());
+            System.out.println("Local IP Address: " + localAddress.getHostAddress());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**Output**:
+```
+Local Host Name: my-computer
+Local IP Address: 192.168.1.10
+```
+
+#### 3. **Check if an Address is Reachable**
+
+You can check whether a particular IP address is reachable using the `isReachable(int timeout)` method, which tries to ping the address.
+
+```java
+import java.net.InetAddress;
+
+public class ReachableExample {
+
+    public static void main(String[] args) {
+        try {
+            // Get the InetAddress object for a hostname
+            InetAddress address = InetAddress.getByName("google.com");
+
+            // Check if the address is reachable within a timeout of 5000 ms
+            if (address.isReachable(5000)) {
+                System.out.println(address.getHostName() + " is reachable.");
+            } else {
+                System.out.println(address.getHostName() + " is not reachable.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**Output**:
+```
+google.com is reachable.
+```
+
+#### 4. **Get All IP Addresses for a Host**
+
+If a host has multiple IP addresses (such as for load balancing), you can use the `getAllByName()` method to retrieve all associated addresses.
+
+```java
+import java.net.InetAddress;
+
+public class AllAddressesExample {
+
+    public static void main(String[] args) {
+        try {
+            // Get all IP addresses for a hostname
+            InetAddress[] addresses = InetAddress.getAllByName("google.com");
+
+            // Display all IP addresses
+            for (InetAddress address : addresses) {
+                System.out.println("IP Address: " + address.getHostAddress());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+**Output**:
+```
+IP Address: 142.250.190.206
+IP Address: 2607:f8b0:4007:80b::200e
+```
+
+### **Use Cases of `InetAddress`**
+
+1. **Network Diagnostics**: Use the `InetAddress` class to perform network diagnostics, such as checking if a specific IP address or hostname is reachable using `isReachable()`. This is helpful for network monitoring tools.
+
+2. **Server Application Development**: In server applications, you might need to resolve client IP addresses to hostnames, or manage connections from multiple IP addresses of a single host.
+
+3. **Load Balancing**: If a service is hosted across multiple servers for load balancing, you can use `getAllByName()` to retrieve all IP addresses associated with a given hostname. This can help distribute traffic across different IPs.
+
+4. **DNS Resolution**: The `InetAddress` class is commonly used for DNS resolution, converting a hostname into an IP address or vice versa.
+
+5. **Building Networking Tools**: InetAddress provides a fundamental API for building network utilities such as ping, DNS lookup tools, and others that work with IP addresses and hostnames.
+
+6. **Loopback Testing**: By checking the loopback address (`127.0.0.1` or `::1`), you can create applications that verify local networking functionality or run services for local testing purposes.
+
+### **Conclusion**
+
+The `InetAddress` class in Java is a versatile utility for managing IP addresses and hostnames, supporting both IPv4 and IPv6. It can be used for DNS resolution, checking host reachability, and retrieving information about local and remote hosts. `InetAddress` is an essential tool for building networking applications, performing diagnostics, and handling communication across the internet or local networks.

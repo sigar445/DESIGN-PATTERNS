@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="940149c4-8b6d-410b-8865-a809251a642b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,11 +41,14 @@
   "keyToString": {
     "Application.BufferedInputStreamDemo.executor": "Run",
     "Application.ByteArrayOutputStreamDemo.executor": "Run",
+    "Application.ClientUDP.executor": "Run",
     "Application.ConsoleDemo.executor": "Run",
+    "Application.CookieDemo.executor": "Run",
     "Application.CustomFISDemo.executor": "Run",
     "Application.FileDemo.executor": "Run",
     "Application.FileOutputStreamDemo.executor": "Run",
     "Application.FormatterDemo.executor": "Run",
+    "Application.HttpClientDemo.executor": "Run",
     "Application.InetAddressDemo.executor": "Run",
     "Application.InputStreamDemo.executor": "Run",
     "Application.NavigableSetDemo.executor": "Run",
@@ -65,27 +65,38 @@
     "Application.RMIServer.executor": "Run",
     "Application.ScannerDemo.executor": "Run",
     "Application.SerializationDemo.executor": "Run",
+    "Application.ServerClientUDP.executor": "Run",
+    "Application.ServerSocketTCP.executor": "Run",
+    "Application.SimpleTCPClient.executor": "Run",
     "Application.SortedSetDemo.executor": "Run",
     "Application.TCP_SERVER.executor": "Run",
     "Application.TimeDateFormat.executor": "Run",
+    "Application.URLDemo.executor": "Run",
+    "Application.WhoIS.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gaura/IdeaProjects/OOPSPractice/pom.xml",
+    "last_opened_file_path": "C:/Users/gaura/IdeaProjects/OOPSPractice/src/main/java/org/sigar/Networking/UDP",
     "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.NioTcpServer">
-    <configuration name="NioFileChannel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioFileChannel" />
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gaura\IdeaProjects\OOPSPractice\src\main\java\org\sigar\Networking\UDP" />
+      <recent name="C:\Users\gaura\IdeaProjects\OOPSPractice\src\main\java\org\sigar\Networking" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.HttpClientDemo">
+    <configuration name="ClientUDP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.ClientUDP" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
+          <option name="PATTERN" value="org.sigar.Networking.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -93,12 +104,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NioMultipleSocketChannelConnector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioMultipleSocketChannelConnector" />
+    <configuration name="HttpClientDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.HttpClientDemo" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
+          <option name="PATTERN" value="org.sigar.Networking.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -106,12 +117,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NioTCPClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioTCPClient" />
+    <configuration name="ServerClientUDP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.ServerClientUDP" />
       <module name="SoftwareBooksCode" />
+      <option name="PROGRAM_PARAMETERS" value="1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
+          <option name="PATTERN" value="org.sigar.Networking.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -119,12 +131,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NioTcpServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioTcpServer" />
+    <configuration name="ServerSocketTCP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.TCP.ServerSocketTCP" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
+          <option name="PATTERN" value="org.sigar.Networking.TCP.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -132,12 +144,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NioTcpSocketChannel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.NIO_InOut.NioTcpSocketChannel" />
+    <configuration name="SimpleTCPClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.TCP.SimpleTCPClient" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.NIO_InOut.*" />
+          <option name="PATTERN" value="org.sigar.Networking.TCP.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -145,13 +157,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.ClientUDP" />
+      <item itemvalue="Application.HttpClientDemo" />
+      <item itemvalue="Application.ServerSocketTCP" />
+      <item itemvalue="Application.SimpleTCPClient" />
+      <item itemvalue="Application.ServerClientUDP" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.NioTcpServer" />
-        <item itemvalue="Application.NioMultipleSocketChannelConnector" />
-        <item itemvalue="Application.NioTcpSocketChannel" />
-        <item itemvalue="Application.NioTCPClient" />
-        <item itemvalue="Application.NioFileChannel" />
+        <item itemvalue="Application.HttpClientDemo" />
+        <item itemvalue="Application.SimpleTCPClient" />
+        <item itemvalue="Application.ServerSocketTCP" />
+        <item itemvalue="Application.ClientUDP" />
+        <item itemvalue="Application.ServerClientUDP" />
       </list>
     </recent_temporary>
   </component>

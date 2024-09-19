@@ -12,10 +12,14 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="package-info" />
         <option value="Class" />
       </list>
     </option>
@@ -39,14 +43,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.AtomicReferenceDemo.executor": "Run",
     "Application.BufferedInputStreamDemo.executor": "Run",
     "Application.ByteArrayOutputStreamDemo.executor": "Run",
     "Application.ClientUDP.executor": "Run",
     "Application.ConsoleDemo.executor": "Run",
     "Application.CookieDemo.executor": "Run",
+    "Application.CountDownLatchExample.executor": "Run",
     "Application.CustomFISDemo.executor": "Run",
+    "Application.CyclicBarrierExample.executor": "Run",
+    "Application.Demo.executor": "Run",
+    "Application.EventHandlingExample.executor": "Run",
+    "Application.ExchangerDemo.executor": "Run",
     "Application.FileDemo.executor": "Run",
     "Application.FileOutputStreamDemo.executor": "Run",
+    "Application.ForkJoinExample.executor": "Run",
     "Application.FormatterDemo.executor": "Run",
     "Application.HttpClientDemo.executor": "Run",
     "Application.InetAddressDemo.executor": "Run",
@@ -59,16 +70,23 @@
     "Application.NioTcpSocketChannel.executor": "Run",
     "Application.NioUdpDatagramChannel.executor": "Run",
     "Application.NioUdpServer.executor": "Run",
+    "Application.PhaserDemo.executor": "Run",
+    "Application.PhaserDemo2.executor": "Run",
     "Application.PropertyDemo.executor": "Run",
     "Application.RBdemo.executor": "Run",
     "Application.RMIClient.executor": "Run",
     "Application.RMIServer.executor": "Run",
+    "Application.ReentrantLockDemo.executor": "Run",
+    "Application.ReentrantReadWriteDemo.executor": "Run",
     "Application.ScannerDemo.executor": "Run",
+    "Application.SemDemo.executor": "Run",
     "Application.SerializationDemo.executor": "Run",
     "Application.ServerClientUDP.executor": "Run",
     "Application.ServerSocketTCP.executor": "Run",
     "Application.SimpleTCPClient.executor": "Run",
     "Application.SortedSetDemo.executor": "Run",
+    "Application.StampedLockDemo.executor": "Run",
+    "Application.StampedLockDemo1.executor": "Run",
     "Application.TCP_SERVER.executor": "Run",
     "Application.TimeDateFormat.executor": "Run",
     "Application.URLDemo.executor": "Run",
@@ -78,25 +96,27 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gaura/IdeaProjects/OOPSPractice/src/main/java/org/sigar/Networking/UDP",
+    "last_opened_file_path": "C:/Users/gaura/IdeaProjects/OOPSPractice/src/main/java/org/sigar/Concurrency",
     "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "editor.preferences.import"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gaura\IdeaProjects\OOPSPractice\src\main\java\org\sigar\Concurrency" />
       <recent name="C:\Users\gaura\IdeaProjects\OOPSPractice\src\main\java\org\sigar\Networking\UDP" />
       <recent name="C:\Users\gaura\IdeaProjects\OOPSPractice\src\main\java\org\sigar\Networking" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.HttpClientDemo">
-    <configuration name="ClientUDP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.ClientUDP" />
+  <component name="RunManager" selected="Application.PhaserDemo2">
+    <configuration name="CountDownLatchExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Concurrency.CountDownLatch.CountDownLatchExample" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Networking.*" />
+          <option name="PATTERN" value="org.sigar.Concurrency.CountDownLatch.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -104,12 +124,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HttpClientDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.HttpClientDemo" />
+    <configuration name="CyclicBarrierExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Concurrency.CyclicBarrier.CyclicBarrierExample" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Networking.*" />
+          <option name="PATTERN" value="org.sigar.Concurrency.CyclicBarrier.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -117,13 +137,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerClientUDP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.ServerClientUDP" />
+    <configuration name="ExchangerDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Concurrency.Exchanger.ExchangerDemo" />
       <module name="SoftwareBooksCode" />
-      <option name="PROGRAM_PARAMETERS" value="1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Networking.*" />
+          <option name="PATTERN" value="org.sigar.Concurrency.Exchanger.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -131,12 +150,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerSocketTCP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.TCP.ServerSocketTCP" />
+    <configuration name="PhaserDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Concurrency.PhaserExamples.PhaserDemo" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Networking.TCP.*" />
+          <option name="PATTERN" value="org.sigar.Concurrency.PhaserExamples.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -144,12 +163,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SimpleTCPClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.sigar.Networking.TCP.SimpleTCPClient" />
+    <configuration name="PhaserDemo2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.sigar.Concurrency.PhaserExamples.PhaserDemo2" />
       <module name="SoftwareBooksCode" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.sigar.Networking.TCP.*" />
+          <option name="PATTERN" value="org.sigar.Concurrency.PhaserExamples.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -158,19 +177,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.ClientUDP" />
-      <item itemvalue="Application.HttpClientDemo" />
-      <item itemvalue="Application.ServerSocketTCP" />
-      <item itemvalue="Application.SimpleTCPClient" />
-      <item itemvalue="Application.ServerClientUDP" />
+      <item itemvalue="Application.CountDownLatchExample" />
+      <item itemvalue="Application.CyclicBarrierExample" />
+      <item itemvalue="Application.ExchangerDemo" />
+      <item itemvalue="Application.PhaserDemo" />
+      <item itemvalue="Application.PhaserDemo2" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.HttpClientDemo" />
-        <item itemvalue="Application.SimpleTCPClient" />
-        <item itemvalue="Application.ServerSocketTCP" />
-        <item itemvalue="Application.ClientUDP" />
-        <item itemvalue="Application.ServerClientUDP" />
+        <item itemvalue="Application.PhaserDemo2" />
+        <item itemvalue="Application.PhaserDemo" />
+        <item itemvalue="Application.ExchangerDemo" />
+        <item itemvalue="Application.CountDownLatchExample" />
+        <item itemvalue="Application.CyclicBarrierExample" />
       </list>
     </recent_temporary>
   </component>
@@ -184,6 +203,17 @@
       <updated>1726331545963</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -245,6 +275,26 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/sigar/NIO_InOut/NioMultipleSocketChannelConnector.java</url>
           <line>37</line>
           <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/Concurrency/Semaphores/SemDemo.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/Concurrency/Locks/ReentrantReadWriteDemo.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/Concurrency/Locks/ReentrantReadWriteDemo.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sigar/Concurrency/Exchanger/MakeString.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,0 +1,98 @@
+In Java, `Callable` tasks do not have an inherent mechanism for naming like `Thread` objects do. However, you can manually create a custom implementation of `Callable` that includes a **name** and uses that name in `print` statements to track execution. This way, when the task runs, you can see which task is being executed.
+
+### Example: Naming `Callable` Tasks
+
+You can create a custom `NamedCallable` class that accepts a name and prints the task name when it runs.
+
+#### Step 1: Custom `NamedCallable` Implementation
+
+```java
+import java.util.concurrent.Callable;
+
+public class NamedCallable implements Callable<Integer> {
+    private final String name;
+
+    public NamedCallable(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Integer call() throws Exception {
+        System.out.println("Task " + name + " is running on thread: " + Thread.currentThread().getName());
+        // Simulate some work with sleep or real logic here
+        Thread.sleep(1000);
+        return (int) (Math.random() * 100);  // Random result for demonstration
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+```
+
+#### Step 2: Submitting Named Tasks to ExecutorService
+
+Now, when you submit your tasks, you can create instances of `NamedCallable` and track them by name:
+
+```java
+import java.util.List;
+import java.util.concurrent.*;
+
+public class ExecutorServiceExample {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        // Create a fixed thread pool with 2 threads
+        ExecutorService service = Executors.newFixedThreadPool(2);
+
+        // Create a list of named callables
+        List<Callable<Integer>> callableList = List.of(
+                new NamedCallable("Reader1"),
+                new NamedCallable("Writer1"),
+                new NamedCallable("Reader2"),
+                new NamedCallable("Writer2"),
+                new NamedCallable("Reader3"),
+                new NamedCallable("Reader4")
+        );
+
+        // Submit the tasks using invokeAll
+        List<Future<Integer>> results = service.invokeAll(callableList);
+
+        // Retrieve and print the results
+        for (int i = 0; i < results.size(); i++) {
+            Future<Integer> future = results.get(i);
+            System.out.println(callableList.get(i).getClass().getSimpleName() + " result: " + future.get());
+        }
+
+        // Shut down the service
+        service.shutdown();
+    }
+}
+```
+
+### Explanation:
+1. **NamedCallable class**:
+   - Each task has a **name** passed in its constructor.
+   - In the `call()` method, a message is printed showing the task name and the thread on which it is running using `Thread.currentThread().getName()`.
+
+2. **Task Submission**:
+   - When you submit the tasks using `invokeAll()`, each task's name is printed when it's executed.
+   - This allows you to track which task is running at a particular time, on which thread.
+
+3. **Output**: The program prints the task name, the thread name, and any results you might return from the `call()` method. Here is an example output:
+
+```plaintext
+Task Reader1 is running on thread: pool-1-thread-1
+Task Writer1 is running on thread: pool-1-thread-2
+Task Reader2 is running on thread: pool-1-thread-1
+Task Writer2 is running on thread: pool-1-thread-2
+Task Reader3 is running on thread: pool-1-thread-1
+Task Reader4 is running on thread: pool-1-thread-2
+NamedCallable result: 42
+NamedCallable result: 85
+NamedCallable result: 13
+NamedCallable result: 57
+NamedCallable result: 94
+NamedCallable result: 26
+```
+
+### Conclusion:
+By using a custom `NamedCallable` class with a name attribute, you can simulate naming tasks and track their execution with print statements. This helps monitor which tasks are running on which threads and when they complete.

@@ -1,0 +1,46 @@
+If you initialize the `Phaser` with `2` (i.e., `Phaser(2)`), the code will likely get stuck and **not advance to the next phase**. Here's why:
+
+### What Happens with `Phaser(2)`:
+
+1. **Initial Parties**:
+   - When you initialize the `Phaser` with `2`, it means the `Phaser` expects **2 parties** to arrive before it can advance phases. These two parties could be:
+     - The **main thread** (which is implicitly registered when you create the `Phaser` with `2`).
+     - Another thread (which hasn't registered yet).
+
+2. **Worker Threads**:
+   - The worker threads (`A`, `B`, `C`) dynamically register themselves in the `Worker` constructor using `phsr.register()`. As soon as they register, the total number of expected parties increases.
+   - For example, when the first worker registers, the total expected parties become `3` (2 initial parties + 1 new worker). When the second worker registers, the total expected parties become `4`, and so on.
+
+3. **Stuck in Phase 0**:
+   - The main thread will call `phsr.arriveAndAwaitAdvance()` and arrive at the barrier for Phase 0. However, the main thread will wait for **1 more party to arrive** (since the `Phaser` was initialized with 2 parties).
+   - The worker threads, though, have not yet started registering at this point, and therefore the main thread keeps waiting.
+
+   **Key Issue**:
+   - The initial setup of the `Phaser` (with 2 parties) means that it expects the main thread and one other party to arrive at Phase 0 before proceeding. However, since none of the workers have registered yet at the moment the main thread reaches Phase 0, the main thread will be waiting indefinitely.
+
+4. **Phaser Never Advances**:
+   - The worker threads do eventually register themselves, but by that time, the `Phaser` has already locked onto waiting for only 2 parties. The main thread is stuck waiting for the wrong number of parties, so it cannot advance phases.
+   - Since the worker threads dynamically register and increase the number of parties, the phase cannot advance because the expected number of parties grows as more workers register.
+
+---
+
+### Why `Phaser(1)` Works but `Phaser(2)` Doesn't:
+
+- **Phaser(1)**: When initialized with 1 party, only the **main thread** is registered initially. This means the main thread is only waiting for itself to arrive at the barrier for the phase. The worker threads dynamically register as they start, and then the `Phaser` correctly waits for all the parties (main thread + workers) to reach the barrier before advancing the phase.
+
+- **Phaser(2)**: When initialized with 2 parties, the main thread is expecting 1 more party to arrive at the barrier. But before the worker threads register themselves, there aren't enough parties to satisfy this expectation, so the main thread waits indefinitely.
+
+---
+
+### Solution:
+
+If you want dynamic registration of worker threads while ensuring that the `Phaser` works correctly, either:
+
+1. **Use `Phaser(1)`**: Initialize with just 1 party (the main thread), and let the worker threads register dynamically.
+
+2. **Dynamically Register Everything**: Initialize the `Phaser` with 0 parties (`Phaser(0)`), and dynamically register all threads (including the main thread if necessary). This way, the `Phaser` doesn’t get stuck waiting for a fixed number of initial parties.
+
+---
+
+### Key Takeaway:
+The `Phaser(2)` setup causes the main thread to expect exactly one other party, but dynamically registering more threads later increases the number of expected parties, resulting in the `Phaser` never advancing. Initialization with `Phaser(1)` avoids this issue by allowing the `Phaser` to account for dynamically registered parties.

@@ -1,0 +1,76 @@
+Event handling in Java refers to the process of managing events such as mouse clicks, key presses, or actions performed on GUI components like buttons, checkboxes, etc. Java provides a robust and flexible framework for handling these events, which is crucial in creating interactive graphical user interfaces (GUIs).
+
+### Key Components of Event Handling in Java:
+
+1. **Event Source**: The component on which the event occurs. For example, a button can be an event source when it is clicked.
+
+2. **Event Object**: When an event occurs, an object is created that contains all the information about the event. Java provides several event classes (like `ActionEvent`, `MouseEvent`, `KeyEvent`, etc.) in the `java.awt.event` and `javax.swing.event` packages.
+
+3. **Event Listener**: A listener is an object that "listens" for events and contains code that executes when an event occurs. To handle an event, a class must implement a particular listener interface (e.g., `ActionListener`, `MouseListener`, `KeyListener`).
+
+4. **Event Listener Interface**: Java provides several listener interfaces that must be implemented to handle different types of events. Each listener interface has methods that are triggered when an event occurs. Some examples:
+   - `ActionListener`: Handles action events like button clicks.
+   - `MouseListener`: Handles mouse events such as clicks and movements.
+   - `KeyListener`: Handles keyboard events like key presses.
+
+### Steps to Handle Events in Java:
+
+1. **Register the Listener**: The event source component needs to register an event listener to listen for specific events. This is done using methods like `addActionListener()`, `addMouseListener()`, etc.
+
+2. **Implement Listener Methods**: The class handling the event must implement the listener interface and provide the logic for the specific event in the listener methods (e.g., `actionPerformed()`, `mouseClicked()`, `keyPressed()`, etc.).
+
+### Example: Handling Button Click Events
+
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class EventHandlingExample extends JFrame implements ActionListener {
+    JButton button;
+
+    public EventHandlingExample() {
+        button = new JButton("Click Me");
+        button.setBounds(50, 100, 95, 30);
+
+        // Register the listener
+        button.addActionListener(this);
+
+        add(button);
+        setSize(300, 200);
+        setLayout(null);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    // Implementing the actionPerformed method of ActionListener
+    public void actionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(this, "Button Clicked!");
+    }
+
+    public static void main(String[] args) {
+        new EventHandlingExample();
+    }
+}
+```
+
+### Explanation of the Example:
+- The `EventHandlingExample` class implements `ActionListener`, meaning it can handle action events (e.g., button clicks).
+- The `addActionListener(this)` method registers the current object (`this`) as the listener for the button.
+- The `actionPerformed()` method is called when the button is clicked, displaying a dialog box.
+
+### Types of Events in Java:
+1. **Action Events**: Occur when a button is clicked, a menu item is selected, etc. (Handled using `ActionListener`).
+2. **Mouse Events**: Occur when the mouse is clicked, pressed, released, or moved (Handled using `MouseListener` or `MouseMotionListener`).
+3. **Key Events**: Occur when a key is pressed, released, or typed (Handled using `KeyListener`).
+4. **Window Events**: Occur when a window is opened, closed, minimized, or activated (Handled using `WindowListener`).
+
+### Common Event Listener Interfaces:
+- `ActionListener`: For button clicks, menu selections, etc.
+- `MouseListener`: For mouse clicks, presses, releases.
+- `MouseMotionListener`: For mouse dragging and movement.
+- `KeyListener`: For key presses, releases, and typing.
+- `WindowListener`: For window state changes.
+- `ItemListener`: For checkbox, radio button, or combo box selections.
+
+Event handling is essential for building interactive applications in Java, allowing developers to capture user input and respond accordingly.

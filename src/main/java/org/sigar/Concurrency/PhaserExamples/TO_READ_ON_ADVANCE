@@ -1,0 +1,198 @@
+The `onAdvance()` method in `Phaser` is a hook that gets called at the end of each phase. By default, it returns `false` unless there are no registered parties, in which case it returns `true` to terminate the phaser. Overriding `onAdvance()` allows you to control when and how the phaser advances between phases and when it should terminate, which can be useful in a variety of scenarios.
+
+### When to Override `onAdvance()`
+
+1. **To Limit the Number of Phases**:
+   One common reason to override `onAdvance()` is to stop the phaser after executing a fixed number of phases. This allows you to programmatically limit how many times the threads synchronize at the phaser before it terminates.
+
+2. **To Perform Custom Logic Between Phases**:
+   You may also override `onAdvance()` to perform some custom logic between phases, such as resetting shared resources or logging progress. The method can be useful to run any intermediate action before the phaser allows the threads to proceed to the next phase.
+
+3. **To Dynamically Control the Execution of Phases**:
+   You can use `onAdvance()` to dynamically decide whether to advance to the next phase based on certain conditions, such as external factors, data from the current phase, or the progress of the tasks.
+
+### Example 1: Limiting the Number of Phases
+
+In this example, we override `onAdvance()` to terminate the phaser after a specific number of phases have been completed. Suppose we want to limit the execution to 3 phases:
+
+```java
+import java.util.concurrent.Phaser;
+
+public class LimitedPhasePhaser extends Phaser {
+    private final int maxPhases;
+
+    public LimitedPhasePhaser(int parties, int maxPhases) {
+        super(parties);
+        this.maxPhases = maxPhases;
+    }
+
+    // Override onAdvance to terminate after 3 phases
+    @Override
+    protected boolean onAdvance(int phase, int registeredParties) {
+        System.out.println("Phase " + phase + " completed.");
+        // Terminate phaser after the specified number of phases
+        return phase >= maxPhases - 1 || registeredParties == 0;
+    }
+
+    public static void main(String[] args) {
+        // Phaser with 3 worker threads, and limit the number of phases to 3
+        Phaser phaser = new LimitedPhasePhaser(3, 3);
+
+        for (int i = 0; i < 3; i++) {
+            new Thread(new Worker(phaser, "Worker-" + i)).start();
+        }
+    }
+}
+
+class Worker implements Runnable {
+    private Phaser phaser;
+    private String name;
+
+    public Worker(Phaser phaser, String name) {
+        this.phaser = phaser;
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        while (!phaser.isTerminated()) {
+            System.out.println(name + " starting phase " + phaser.getPhase());
+            phaser.arriveAndAwaitAdvance(); // Synchronize on phases
+        }
+        System.out.println(name + " terminated.");
+    }
+}
+```
+
+**Explanation**:
+- This example creates a `LimitedPhasePhaser` that allows the worker threads to synchronize for 3 phases. After phase 2 (the third phase, since phase indexing starts at 0), the `onAdvance()` method returns `true`, which terminates the phaser, and no further phases are allowed.
+- Each thread runs in a loop until the phaser terminates.
+
+---
+
+### Example 2: Resetting Resources Between Phases
+
+Here’s another example where you might want to perform some custom logic between phases, such as resetting shared resources or preparing for the next phase of execution.
+
+```java
+import java.util.concurrent.Phaser;
+
+public class ResourceResetPhaser extends Phaser {
+
+    @Override
+    protected boolean onAdvance(int phase, int registeredParties) {
+        System.out.println("Phase " + phase + " completed. Resetting resources...");
+
+        // Custom logic to reset shared resources
+        resetSharedResources();
+
+        // Keep advancing to the next phase unless no parties remain
+        return registeredParties == 0;
+    }
+
+    private void resetSharedResources() {
+        System.out.println("Shared resources have been reset for the next phase.");
+    }
+
+    public static void main(String[] args) {
+        Phaser phaser = new ResourceResetPhaser();
+        phaser.bulkRegister(3); // Register 3 parties (threads)
+
+        for (int i = 0; i < 3; i++) {
+            new Thread(new Worker(phaser, "Worker-" + i)).start();
+        }
+    }
+}
+
+class Worker implements Runnable {
+    private Phaser phaser;
+    private String name;
+
+    public Worker(Phaser phaser, String name) {
+        this.phaser = phaser;
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        while (!phaser.isTerminated()) {
+            System.out.println(name + " starting phase " + phaser.getPhase());
+            phaser.arriveAndAwaitAdvance(); // Synchronize on phases
+        }
+        System.out.println(name + " terminated.");
+    }
+}
+```
+
+**Explanation**:
+- In this example, after each phase, the `onAdvance()` method runs some custom logic to reset shared resources.
+- This could be useful in scenarios where threads are operating on shared data, and the data needs to be reset or prepared for the next phase of work.
+- The phaser continues advancing phases until no parties remain.
+
+---
+
+### Example 3: Conditional Termination Based on Phase Progress
+
+In certain cases, you may want to terminate the phaser based on dynamic conditions, such as the progress of tasks or data generated during a phase. For example, you can terminate the phaser early if a certain condition is met (e.g., if a certain phase reaches a particular threshold).
+
+```java
+import java.util.concurrent.Phaser;
+
+public class ConditionalTerminatePhaser extends Phaser {
+
+    @Override
+    protected boolean onAdvance(int phase, int registeredParties) {
+        System.out.println("Phase " + phase + " completed.");
+
+        // Custom condition to stop after a certain phase
+        if (phase == 2) {
+            System.out.println("Reached the threshold. Terminating phaser.");
+            return true; // Terminate phaser after phase 2
+        }
+
+        return registeredParties == 0;
+    }
+
+    public static void main(String[] args) {
+        Phaser phaser = new ConditionalTerminatePhaser();
+        phaser.bulkRegister(3); // Register 3 parties (threads)
+
+        for (int i = 0; i < 3; i++) {
+            new Thread(new Worker(phaser, "Worker-" + i)).start();
+        }
+    }
+}
+
+class Worker implements Runnable {
+    private Phaser phaser;
+    private String name;
+
+    public Worker(Phaser phaser, String name) {
+        this.phaser = phaser;
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        while (!phaser.isTerminated()) {
+            System.out.println(name + " starting phase " + phaser.getPhase());
+            phaser.arriveAndAwaitAdvance(); // Synchronize on phases
+        }
+        System.out.println(name + " terminated.");
+    }
+}
+```
+
+**Explanation**:
+- This example shows a scenario where the phaser is terminated early based on a specific condition (here, after phase 2).
+- This allows dynamic control over the number of phases, depending on runtime conditions or task progress.
+
+---
+
+### Summary
+
+- **Limiting Phases**: You can override `onAdvance()` to stop the phaser after a certain number of phases have been completed.
+- **Resetting Resources**: `onAdvance()` can be used to reset resources or perform other custom logic between phases.
+- **Conditional Termination**: You can dynamically decide to terminate the phaser based on conditions related to task progress or external factors.
+
+These examples illustrate the flexibility provided by overriding `onAdvance()` in a `Phaser`.
